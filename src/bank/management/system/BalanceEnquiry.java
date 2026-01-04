@@ -42,7 +42,7 @@ public class BalanceEnquriy extends JFrame implements ActionListener {
 
         int balance =0;
         try{
-            Connn c = new Connn();
+            DBConnection c = new DBConnection();
             ResultSet resultSet = c.statement.executeQuery("Select * from bank where pin = '"+pin+"'");
             while (resultSet.next()){
                 if (resultSet.getString("type").equals("Deposit")){
@@ -66,7 +66,7 @@ public class BalanceEnquriy extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         setVisible(false);
-        new main_Class(pin);
+        new Main(pin);
     }
 
     public static void main(String[] args) {

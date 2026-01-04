@@ -34,7 +34,7 @@ public class mini extends JFrame implements ActionListener {
         add(label4);
 
         try{
-            Connn c = new Connn();
+            DBConnection c = new DBConnection();
             ResultSet resultSet = c.statement.executeQuery("select * from login where pin = '"+pin+"'");
             while (resultSet.next()){
                 label3.setText("Card Number:  "+ resultSet.getString("card_number").substring(0,4) + "XXXXXXXX"+ resultSet.getString("card_number").substring(12));
@@ -45,7 +45,7 @@ public class mini extends JFrame implements ActionListener {
 
         try{
             int balance =0;
-            Connn c = new Connn();
+            DBConnection c = new DBConnection();
             ResultSet resultSet = c.statement.executeQuery("select * from bank where pin = '"+pin+"'");
             while (resultSet.next()){
 
