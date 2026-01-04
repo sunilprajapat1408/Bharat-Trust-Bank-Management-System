@@ -47,16 +47,17 @@ Bharat-Trust-Bank-Management-System/
 ├── src/
 │   └── bank/management/system/
 │       ├── Login.java
-│       ├── main_Class.java
+│       ├── Main.java
 │       ├── Deposit.java
 │       ├── Withdrawal.java
-│       ├── BalanceEnquriy.java
+│       ├── BalanceEnqiry.java
 │       ├── FastCash.java
 │       ├── Pin.java
 │       ├── Signup.java
 │       ├── Signup2.java
 │       ├── Signup3.java
-│       └── Connn.java
+│       └── DBConnection.java
+        └── MiniStatement.java
 ├── icon/
 │   ├── atm2.png
 │   ├── backbg.jpg
