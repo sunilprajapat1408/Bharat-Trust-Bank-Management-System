@@ -101,6 +101,59 @@ The application uses **MySQL Workbench** as the database layer.
 
 ---
 
+## 🗃️ Database Schema Documentation
+
+The application uses a MySQL database to store user account details and
+transaction records. The schema is designed to support basic banking
+operations such as account creation, balance enquiry, deposits, withdrawals,
+and PIN management.
+
+---
+
+### 📌 Table: users
+
+Stores bank account holder details.
+
+| Column Name | Data Type | Description |
+|------------|----------|-------------|
+| id | INT (Primary Key) | Unique user/account ID |
+| name | VARCHAR(100) | Account holder name |
+| email | VARCHAR(100) | User email address |
+| pin | VARCHAR(10) | Account PIN for authentication |
+| balance | DECIMAL(10,2) | Current account balance |
+
+---
+
+### 📌 Table: transactions
+
+Stores all deposit and withdrawal records.
+
+| Column Name | Data Type | Description |
+|------------|----------|-------------|
+| id | INT (Primary Key) | Unique transaction ID |
+| user_id | INT (Foreign Key) | References `users.id` |
+| transaction_type | VARCHAR(20) | Deposit / Withdrawal / Fast Cash |
+| amount | DECIMAL(10,2) | Transaction amount |
+| transaction_date | TIMESTAMP | Date and time of transaction |
+
+---
+
+### 🔗 Table Relationships
+
+- Each **user** can have multiple **transactions**
+- `transactions.user_id` is linked to `users.id`
+- All transactions are processed through JDBC queries
+
+---
+
+### 🔐 Security Note
+
+- PIN values are used for authentication
+- Database credentials should be configured locally and **must not be exposed**
+  in public repositories
+
+---
+
 ## ▶️ How to Run the Project
 
 ### Prerequisites
