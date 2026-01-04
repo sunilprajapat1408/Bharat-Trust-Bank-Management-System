@@ -1,33 +1,26 @@
 # Database for Workbench
 
-This folder contains database-related files used for the Bharat Trust Bank
-Management System.
+This folder contains database-related files used in the
+Bharat Trust Bank Management System.
 
 ## Purpose
 
-The project uses **MySQL Workbench** as the database layer. This folder
-stores database scripts and data files that were used to:
-
-- Create database tables
-- Execute SQL queries
-- Manage connections using JDBC
-- Test data flow between Java application and database
+The project uses MySQL as the backend database and MySQL Workbench
+for database management and query execution.
 
 ## Contents
 
-- SQL files containing table creation and query execution
-- Database configuration and connection-related data
-- Query scripts executed in MySQL Workbench
+- SQL file containing database schema and queries
+- Data used during development and testing
+- JDBC connection testing scripts
 
-## Database Connectivity
+## Database Usage
 
-- The Java application connects to MySQL Workbench using **JDBC**
-- Connection details are handled inside the project using JDBC
-- Database operations such as login validation and transaction handling
-  depend on this setup
+- Database operations are performed using JDBC in Java
+- MySQL Workbench was used to create tables and execute queries
+- Connection details are handled in Java source code
 
 ## Important
 
-- This folder is required for understanding and reproducing the database
-  setup of the project.
-- Ensure MySQL Workbench is properly configured before running the project.
+Ensure MySQL Workbench is installed and the database is properly
+configured before running the application.
