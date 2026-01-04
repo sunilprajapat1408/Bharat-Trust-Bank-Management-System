@@ -40,7 +40,7 @@ and fast cash transactions. It demonstrates strong fundamentals of **Core Java**
 | Version Control | Git & GitHub |
 
 ---
-
+```text 
 ## 📁 Project Structure
 
 Bharat-Trust-Bank-Management-System/
@@ -70,7 +70,7 @@ Bharat-Trust-Bank-Management-System/
 │   └── README.md
 ├── .gitignore
 └── README.md
-
+```
 ---
 
 
