@@ -93,14 +93,14 @@ public class Login extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         try{
             if (e.getSource()==button1){
-                Connn c = new Connn();
+                DBConnection c = new DBConnection();
                 String cardno = textField2.getText();
                 String pin = passwordField3.getText();
                 String q = "select * from login where card_number = '"+cardno+"' and  pin = '"+pin+"'";
                 ResultSet resultSet = c.statement.executeQuery(q);
                 if (resultSet.next()){
                     setVisible(false);
-                    new main_Class(pin);
+                    new Main(pin);
                 }else {
                     JOptionPane.showMessageDialog(null,"Incorrect Card Number or PIN");
                 }

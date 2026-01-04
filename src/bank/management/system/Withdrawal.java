@@ -72,7 +72,7 @@ public class Withdrawal extends JFrame implements ActionListener {
                 if (textField.getText().equals("")) {
                     JOptionPane.showMessageDialog(null, "Please enter the Amount you want to withdraw");
                 } else {
-                    Connn c = new Connn();
+                    DBConnection c = new DBConnection();
                     ResultSet resultSet = c.statement.executeQuery("select * from bank where pin = '" + pin + "'");
                     int balance = 0;
                     while (resultSet.next()) {
@@ -90,7 +90,7 @@ public class Withdrawal extends JFrame implements ActionListener {
                     c.statement.executeUpdate("insert into bank values('" + pin + "', '" + date + "', 'Withdrawal', '" + amount + "' )");
                     JOptionPane.showMessageDialog(null, "Rs. " + amount + " Debited Successfully");
                     setVisible(false);
-                    new main_Class(pin);
+                    new Main(pin);
 
                 }
             } catch (Exception E) {
@@ -98,7 +98,7 @@ public class Withdrawal extends JFrame implements ActionListener {
             }
         } else if (e.getSource()==b2) {
             setVisible(false);
-            new main_Class(pin);
+            new Main(pin);
         }
     }
 

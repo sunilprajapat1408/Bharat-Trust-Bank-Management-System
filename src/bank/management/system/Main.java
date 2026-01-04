@@ -5,10 +5,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class main_Class extends JFrame implements ActionListener {
+public class Main extends JFrame implements ActionListener {
     JButton b1,b2,b3,b4,b5,b6,b7;
     String pin;
-    main_Class(String pin){
+    Main(String pin){
         this.pin = pin;
 
         ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icon/atm2.png"));
@@ -91,7 +91,7 @@ public class main_Class extends JFrame implements ActionListener {
             new Withdrawal(pin);
             setVisible(false);
         } else if (e.getSource()==b6) {
-            new BalanceEnquriy(pin);
+            new BalanceEnquiry(pin);
             setVisible(false);
         } else if (e.getSource()==b3) {
             new FastCash(pin);
@@ -100,11 +100,11 @@ public class main_Class extends JFrame implements ActionListener {
             new Pin(pin);
             setVisible(false);
         } else if (e.getSource()==b4) {
-            new mini(pin);
+            new MiniStatement(pin);
         }
     }
 
     public static void main(String[] args) {
-        new main_Class("");
+        new Main("");
     }
 }

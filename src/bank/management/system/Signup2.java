@@ -201,7 +201,7 @@ public class Signup2 extends JFrame implements ActionListener {
             if (textPan.getText().equals("") || textAadhar.getText().equals("")){
                 JOptionPane.showMessageDialog(null,"Fill all the fields");
             }else {
-                Connn c = new Connn();
+                DBConnection c = new DBConnection();
                 String q = "insert into Signuptwo values('"+formno+"', '"+rel+"', '"+cate+"','"+inc+"','"+edu+"','"+occ+"','"+pan+"','"+addhar+"','"+scitizen+"','"+eAccount+"')";
                 c.statement.executeUpdate(q);
                 new Signup3(formno);

@@ -1,11 +1,9 @@
 package bank.management.system;
 
-import javax.print.attribute.standard.JobHoldUntil;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.rmi.server.ExportException;
 import java.util.Random;
 
 public class Signup3 extends JFrame implements ActionListener {
@@ -226,7 +224,7 @@ public class Signup3 extends JFrame implements ActionListener {
                 if (atype.equals("")){
                     JOptionPane.showMessageDialog(null,"Fill all the fields");
                 }else {
-                    Connn c1 = new Connn();
+                    DBConnection c1 = new DBConnection();
                     String q1 = "insert into signupthree values('"+formno+"', '"+atype+"','"+cardno+"','"+pin+"','"+fac+"')";
                     String q2 = "insert into login values('"+formno+"','"+cardno+"','"+pin+"')";
                     c1.statement.executeUpdate(q1);

@@ -6,10 +6,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 
-public class mini extends JFrame implements ActionListener {
+public class MiniStatement extends JFrame implements ActionListener {
     String pin;
     JButton button;
-    mini(String pin){
+    MiniStatement(String pin){
         this.pin = pin;
         getContentPane().setBackground(new Color(255, 255, 255));
         setSize(400,600);
@@ -78,6 +78,6 @@ public class mini extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        new mini("");
+        new MiniStatement("");
     }
 }

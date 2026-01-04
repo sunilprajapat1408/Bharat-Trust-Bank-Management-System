@@ -99,7 +99,7 @@ public class Pin extends JFrame implements ActionListener {
                     return;
                 }
 
-                Connn c = new Connn();
+                DBConnection c = new DBConnection();
                 String q1 = "update bank set pin = '"+pin1+"' where pin = '"+pin+"'";
                 String q2 = "update login set pin = '"+pin1+"' where pin = '"+pin+"'";
                 String q3 = "update signupthree set pin = '"+pin1+"' where pin = '"+pin+"'";
@@ -110,10 +110,10 @@ public class Pin extends JFrame implements ActionListener {
 
                 JOptionPane.showMessageDialog(null,"PIN changed successfully");
                 setVisible(false);
-                new main_Class(pin);
+                new Main(pin);
 
             } else if (e.getSource()==b2) {
-                new main_Class(pin);
+                new Main(pin);
                 setVisible(false);
             }
 
