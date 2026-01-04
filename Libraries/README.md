@@ -1,28 +1,28 @@
 # Libraries
 
-This folder contains external library files required to successfully run
-the Bharat Trust Bank Management System.
+This folder contains external JAR libraries required to run the
+Bharat Trust Bank Management System.
 
 ## Purpose
 
-The project uses external JAR libraries for database connectivity and
-runtime support. Without these libraries, the application will not run
-correctly.
+The application depends on external libraries for database connectivity
+and GUI components. Without these libraries, the project will not run.
 
-## Libraries Used
+## Libraries Included
 
 - **MySQL JDBC Connector**
-  - Used for establishing JDBC connection between the Java application
-    and MySQL Workbench database.
-  - Enables execution of SQL queries from Java code.
+  - Enables JDBC-based connection between Java application and MySQL database.
+
+- **JCalendar Library**
+  - Used for date selection and UI support in signup and other forms.
 
 ## Usage
 
-These libraries are added to the project build path and are required at
-runtime. Make sure all JAR files in this folder are properly configured
-in the IDE before running the application.
+All JAR files in this folder must be added to the project build path
+before running the application.
 
-## Note
+## Important Note
 
-Do not delete or modify these library files unless you update the
-database configuration accordingly.
+Do not remove or modify these libraries unless you update the project
+configuration accordingly.
+
