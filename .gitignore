@@ -1,20 +1,25 @@
-# IntelliJ IDEA
-.idea/
-*.iml
-
-# VS Code
-.vscode/
-
-# Build output
-out/
-bin/
-
-# Java
+# Compiled class files
 *.class
+bin/
+out/
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+
+# Log files
+*.log
+audit.log
 
 # OS files
 .DS_Store
 Thumbs.db
 
-# Logs
-*.log
+# Temporary / helper files
+*.tmp
+*.bak
+*~
+sources.txt

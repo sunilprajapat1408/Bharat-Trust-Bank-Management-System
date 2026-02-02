@@ -1,297 +1,231 @@
-# Bharat Trust Bank – Bank Management System
+# Bharat Trust Bank – Core Java Bank Management System
 
-A Java-based desktop **Bank Management System** developed using **Java Swing** for
-the graphical user interface and **JDBC** for database connectivity with
-**MySQL Workbench**.
+This is a **Core Java** desktop **Bank Management System** built with **Java Swing**, **JDBC**, and **MySQL**.  
+It simulates real-world ATM-style banking operations including multi-step signup, secure login, account creation, deposits, withdrawals, fund transfers, balance enquiry, PIN change, and mini statement.
 
-This project simulates real-world banking operations such as user authentication,
-account creation, balance enquiry, cash deposit, withdrawal, PIN management,
-and fast cash transactions. It demonstrates strong fundamentals of **Core Java**,
-**Object-Oriented Programming (OOP)**, **GUI development**, and **database integration**.
+This project is intentionally implemented **without frameworks** to demonstrate strong fundamentals in Core Java, JDBC, and clean layered architecture.
+
+---
+
+## 🔧 Tech Stack
+
+| Component | Technology |
+|---------|------------|
+| Language | Java (Core Java) |
+| GUI | Java Swing |
+| Database | MySQL (`bharat_trust_bank`) |
+| DB Tool | MySQL Workbench |
+| Persistence | JDBC (PreparedStatement) |
+| Build | `javac` + `bin/` output (no Maven/Gradle) |
+
+---
+
+## 🏗️ Architecture Overview
+
+The application follows a **clean layered architecture**:
+
+### UI Layer (`com.bharattrustbank.app`)
+- Java Swing frames and screens:
+  `Login`, `SignupStep1/2/3`, `Main`, `Deposit`, `Withdrawal`, `FastCash`,
+  `BalanceEnquiry`, `MiniStatement`, `Pin`, `BankApplication`
+- Handles:
+  - User input
+  - Validation messages
+  - Screen navigation
+- Contains **no SQL and no business logic**
+
+### Service Layer (`com.bharattrustbank.service`)
+- `AuthService`: authentication, PIN change, SHA-256 hashing & verification
+- `UserService`: multi-step signup and user creation
+- `AccountService`: account lookup and status checks
+- `TransactionService`: deposit, withdrawal, fund transfer, balance, history
+
+### DAO Layer (`com.bharattrustbank.dao`)
+- `UserDao`: CRUD on `users`, hashed PIN handling
+- `AccountDao`: CRUD on `accounts`, lookup by hashed PIN
+- `TransactionDao`: CRUD on `transactions`, balance calculation
+
+### Model Layer (`com.bharattrustbank.model`)
+- Entities: `User`, `Account`, `Transaction`
+- Enums:
+  - `TransactionType` (`Deposit`, `Withdrawal`, `Transfer`)
+  - `AccountStatus` (`ACTIVE`, `INACTIVE`, `CLOSED`)
+
+### Utility Layer (`com.bharattrustbank.util`)
+- `DBConnection`: singleton JDBC connection
+- `PasswordHasher`: SHA-256 hashing
+- `InputValidator`: centralized input validation
+- `AuditLogger`: lightweight logging for key operations
+
+### Exception Layer (`com.bharattrustbank.exception`)
+- `InvalidCredentialsException`
+- `InsufficientBalanceException`
+- `AccountNotFoundException`
+- `AccountInactiveException`
 
 ---
 
 ## 🚀 Features
 
-- User Login with PIN verification  
-- New Account / User Signup (Multi-step process)  
-- Balance Enquiry  
-- Cash Deposit  
-- Cash Withdrawal  
-- Fast Cash option  
-- PIN change functionality  
-- JDBC-based MySQL database connectivity  
-- GUI-based desktop application using Java Swing  
-- Modular and structured Java classes  
+- Multi-step user signup
+- Secure login using card number + hashed PIN
+- Account types: `SAVINGS`, `CURRENT`, `FD`, `RD`
+- PIN security using **SHA-256 hashing**
+- Deposit, Withdrawal, Fast Cash
+- Fund transfer with JDBC transaction atomicity
+- Balance enquiry
+- Mini statement / transaction history
+- PIN change
+- Audit logging for critical actions
 
 ---
 
-## 🖼️ Application Screenshots
+## 🗄️ Database Setup
 
-### 🔐 Login Screen
-![Login Screen](screenshots/login.png)
+- **Database name**: `bharat_trust_bank`
+- **Schema file**: `Database for Workbench/BTB database.sql`
 
----
-
-### 🏠 Main Dashboard
-![Main Dashboard](screenshots/Main.png)
-
----
-
-### 📝 Signup – Page 1
-![Signup Page 1](screenshots/Signupone.png)
-
----
-
-### 📝 Signup – Page 2
-![Signup Page 2](screenshots/Signuptwo.png)
-
----
-
-### 📝 Signup – Page 3
-![Signup Page 3](screenshots/Signupthree.png)
-
----
-
-### 📄 Mini Statement
-![Mini Statement](screenshots/MiniStatement.png)
-
-
----
-
-## 🛠️ Technology Stack
-
-| Component | Technology |
-|---------|------------|
-| Programming Language | Java |
-| JDK Version | Java 17 (LTS) |
-| GUI | Java Swing |
-| Database | MySQL |
-| Database Tool | MySQL Workbench |
-| Connectivity | JDBC |
-| IDE | IntelliJ IDEA / VS Code |
-| Version Control | Git & GitHub |
-
----
-
-## 📦 External Libraries
-
-The project depends on external libraries stored in the **Libraries/** folder.
-
-- **MySQL JDBC Connector**  
-  Used to establish JDBC connection between the Java application and the MySQL database.
-
-- **JCalendar Library**  
-  Used for date-related UI components during user signup and form handling.
-
-All JAR files must be added to the project build path before running the application.
-
----
-
-## 🗄️ Database Configuration
-
-The application uses **MySQL** as the backend database, managed using
-**MySQL Workbench**.
-
-### Steps to set up the database:
-
+### Steps
 1. Open **MySQL Workbench**
-2. Create a new database named: bank_management
-3. Execute the SQL file located at: Database for Workbench/MySQL database.sql
-4. Ensure JDBC connection details in the Java code (URL, username, password)
-match your local MySQL configuration
+2. Run the script: `Database for Workbench/BTB database.sql`
+3. Tables created:
+   - `users`
+   - `accounts`
+   - `transactions`
+   - `account_services`
+4. Ensure MySQL is running on `localhost:3306`
 
 ---
 
-## 🗃️ Database Schema Documentation
+## 🗃️ Database Schema (High Level)
 
-The database is designed to support multi-step signup, authentication,
-and basic banking transactions.
+### `users`
+- `user_id` (PK)
+- `form_no` (unique)
+- Personal, address, and KYC fields
+- `hashed_pin` (`VARCHAR(64)` – SHA-256)
+- `role`
+- `created_at`
 
----
+### `accounts`
+- `account_id` (PK)
+- `user_id` (FK)
+- `account_number`, `card_number` (unique)
+- `account_type`
+- `balance`
+- `status`
+- `created_at`
 
-### 📌 Table: `signup`
+### `transactions`
+- `transaction_id` (PK)
+- `account_id` (FK)
+- `transaction_type`
+- `amount`
+- `transaction_time`
+- `remarks`
 
-Stores **basic personal details** collected during **Signup – Page 1**.
-
-| Column Name | Data Type | Description |
-|------------|----------|-------------|
-| form_no | VARCHAR(30) | Unique signup form number |
-| name | VARCHAR(30) | Applicant name |
-| father_name | VARCHAR(30) | Father’s name |
-| DOB | VARCHAR(30) | Date of birth |
-| gender | VARCHAR(30) | Gender |
-| email | VARCHAR(60) | Email address |
-| marital_status | VARCHAR(30) | Marital status |
-| address | VARCHAR(60) | Residential address |
-| city | VARCHAR(30) | City |
-| pincode | VARCHAR(30) | Postal code |
-| state | VARCHAR(30) | State |
-
----
-
-### 📌 Table: `signuptwo`
-
-Stores **additional personal and financial details** collected during
-**Signup – Page 2**.
-
-| Column Name | Data Type | Description |
-|------------|----------|-------------|
-| form_no | VARCHAR(30) | Signup form number |
-| religion | VARCHAR(30) | Religion |
-| category | VARCHAR(30) | Category |
-| income | VARCHAR(30) | Income range |
-| education | VARCHAR(30) | Education qualification |
-| occuption | VARCHAR(60) | Occupation |
-| pan | VARCHAR(30) | PAN number |
-| aadhar | VARCHAR(60) | Aadhar number |
-| seniorcitizen | VARCHAR(30) | Senior citizen status |
-| existing_account | VARCHAR(30) | Existing bank account (Yes/No) |
+### `account_services`
+- Optional banking services linked to accounts
 
 ---
 
-### 📌 Table: `signupthree`
+## 📦 Dependencies
 
-Stores **account-related details** collected during **Signup – Page 3**.
+### MySQL JDBC Driver (Required)
 
-| Column Name | Data Type | Description |
-|------------|----------|-------------|
-| form_no | VARCHAR(30) | Signup form number |
-| account_Type | VARCHAR(40) | Type of bank account |
-| card_number | VARCHAR(30) | Generated debit/ATM card number |
-| pin | VARCHAR(30) | Account PIN |
-| facility | VARCHAR(200) | Selected banking facilities |
+This project requires the **MySQL JDBC driver** to connect to the database.
 
----
+- Download: **MySQL Connector/J (Platform Independent JAR)**
+- Example: `mysql-connector-j-8.0.x.jar`
+- Add the JAR to the project classpath (VS Code → Referenced Libraries)
 
-### 📌 Table: `login`
-
-Stores **login credentials** used for user authentication.
-
-| Column Name | Data Type | Description |
-|------------|----------|-------------|
-| form_no | VARCHAR(30) | Signup form number |
-| card_number | VARCHAR(50) | Card number |
-| pin | VARCHAR(30) | Login PIN |
+No other external runtime dependencies are required.
 
 ---
 
-### 📌 Table: `bank`
+## 🧩 UI Date Handling
 
-Stores **all transaction records** such as deposit, withdrawal, and fast cash.
-
-| Column Name | Data Type | Description |
-|------------|----------|-------------|
-| pin | VARCHAR(10) | Account PIN |
-| date | VARCHAR(50) | Transaction date |
-| type | VARCHAR(20) | Transaction type |
-| amount | VARCHAR(20) | Transaction amount |
+- A lightweight internal date chooser is used for date selection.
+- No external UI libraries (such as JCalendar) are required to build or run the project.
 
 ---
 
-### 🔗 Database Flow Summary
+## ▶️ How to Build and Run
 
-- User details are collected across three signup tables
-- Authentication is handled using the `login` table
-- All deposits, withdrawals, and fast cash transactions are stored in the `bank` table
-- All database operations are executed using **JDBC**
+### 1. Prerequisites
+- Java JDK 8+
+- MySQL Server
+- MySQL JDBC Driver
+- Database created using `BTB database.sql`
 
-> ℹ️ **Note:**  
-> For simplicity, primary keys and foreign key constraints are not strictly
-> enforced in this educational project. In production systems, proper
-> constraints and indexing should be applied.
+### 2. Configure Database Credentials (Local Use)
 
----
+In `src/com/bharattrustbank/util/DBConnection.java`:
+- Set `DB_URL`, `DB_USER`, and `DB_PASSWORD` for your local MySQL setup.
 
-## 🗃️ Database Schema Documentation
+> Note: Credentials in the code are placeholders for local testing and must be replaced with your own MySQL credentials.
 
-The application uses a MySQL database to store user account details and
-transaction records. The schema is designed to support basic banking
-operations such as account creation, balance enquiry, deposits, withdrawals,
-and PIN management.
+### 3. Compile to `bin/`
 
----
+```bash
+javac -d bin -cp . $(find src -name "*.java")
 
-### 📌 Table: users
+On Windows PowerShell (already used in this project):
 
-Stores bank account holder details.
+```powershell
+Get-ChildItem -Path ".\src" -Recurse -Filter "*.java" |
+  ForEach-Object { $_.FullName } |
+  Set-Content -Path ".\sources.txt"
+javac --release 8 -d "bin" -cp "." (Get-Content ".\sources.txt")
+```
 
-| Column Name | Data Type | Description |
-|------------|----------|-------------|
-| id | INT (Primary Key) | Unique user/account ID |
-| name | VARCHAR(100) | Account holder name |
-| email | VARCHAR(100) | User email address |
-| pin | VARCHAR(10) | Account PIN for authentication |
-| balance | DECIMAL(10,2) | Current account balance |
+### 4. Run the Application
 
----
+From the project root:
 
-### 📌 Table: transactions
+```bash
+java -cp bin com.bharattrustbank.app.BankApplication
+```
 
-Stores all deposit and withdrawal records.
-
-| Column Name | Data Type | Description |
-|------------|----------|-------------|
-| id | INT (Primary Key) | Unique transaction ID |
-| user_id | INT (Foreign Key) | References `users.id` |
-| transaction_type | VARCHAR(20) | Deposit / Withdrawal / Fast Cash |
-| amount | DECIMAL(10,2) | Transaction amount |
-| transaction_date | TIMESTAMP | Date and time of transaction |
+This launches the `Login` screen and drives the full ATM flow.
 
 ---
 
-### 🔗 Table Relationships
+## 📁 Project Structure
 
-- Each **user** can have multiple **transactions**
-- `transactions.user_id` is linked to `users.id`
-- All transactions are processed through JDBC queries
-
----
-
-### 🔐 Security Note
-
-- PIN values are used for authentication
-- Database credentials should be configured locally and **must not be exposed**
-  in public repositories
-
----
-
-## ▶️ How to Run the Project
-
-### Prerequisites
-- Java 17 installed and configured
-- MySQL Workbench installed
-- Database created using the provided SQL file
-- External JAR libraries added to the classpath
-
-### Run Steps
-1. Open the project in **IntelliJ IDEA** or **VS Code**
-2. Configure **Java 17** as the project SDK
-3. Add all JAR files from the `Libraries/` folder to the project build path
-4. Run `Login.java`  to start the application
+```text
+BANK-MANAGEMENT-SYSTEM/
+├── screenshots/
+│   ├── login.png
+│   ├── Main.png
+│   ├── MiniStatement.png
+│   ├── Signupone.png
+│   ├── Signuptwo.png
+│   └── Signupthree.png
+├── Database for Workbench/
+│   └── BTB database.sql
+├── src/
+│   └── com/bharattrustbank/
+│       ├── app/          # Swing UI frames and screens
+│       ├── dao/          # JDBC DAOs (users, accounts, transactions)
+│       ├── service/      # Business logic and rules
+│       ├── model/        # POJOs and enums
+│       ├── util/         # DBConnection, hashing, validation, logging
+│       └── exception/    # Custom exceptions
+├── bin/                  # Compiled .class files
+├── .gitignore
+└── README.md
+```
 
 ---
 
-## 🎯 Project Purpose
+## 💬 Resume / Interview Notes
 
-This project was developed for academic and practical learning purposes to
-demonstrate:
-
-- Core Java programming skills
-- Object-Oriented Programming concepts
-- GUI development using Java Swing
-- Database connectivity using JDBC
-- Clean project structure and version control using Git and GitHub
-
----
-
-## 🔮 Future Enhancements
-
-- Transaction history feature
-- Admin dashboard
-- Improved validation and exception handling
-- Executable JAR packaging
-- Refactoring to MVC architecture
+- **Core Java focus**: Swing UI, JDBC, exception handling, collections, enums.  
+- **Layered architecture**: clear separation of **UI → Service → DAO → DB**.  
+- **Security basics**: PINs stored as **SHA‑256 hashes** (`hashed_pin`), not in plain text.  
+- **Realistic banking logic**: account types, status flags, transaction history, and atomic fund transfer.  
+- Easy to explain end-to-end: from Swing event → service method → DAO → MySQL and back.
 
 ---
 
@@ -305,14 +239,5 @@ Chandigarh University
 
 ## 📜 Disclaimer
 
-This project is developed strictly for educational purposes and is not intended
-for production or real banking use.
-
----
-
-### 🔐 Security Note
-
-- PIN and card details are used strictly for educational purposes
-- Database credentials should not be exposed in public repositories
-- JDBC credentials should be externalized in real-world systems
-- Sensitive data must be encrypted in production applications
+This project is for **educational and portfolio** purposes only and is **not** intended for real banking use.  
+In production systems, credentials must be externalized, sensitive data must be encrypted, and full security hardening is required.
